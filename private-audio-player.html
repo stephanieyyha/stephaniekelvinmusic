@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stephanie 音樂分享</title>
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
+  <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
+  <meta name="description" content="私人音樂分享頁面" />
+  <meta name="theme-color" content="#f7f6f2" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+      --text-sm: clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
+      --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+      --text-lg: clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
+      --text-xl: clamp(1.5rem, 1.2rem + 1.25vw, 2.25rem);
+      --text-2xl: clamp(2rem, 1.2rem + 2.5vw, 3.5rem);
+      --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem; --space-4: 1rem;
+      --space-5: 1.25rem; --space-6: 1.5rem; --space-8: 2rem; --space-10: 2.5rem;
+      --space-12: 3rem; --space-16: 4rem; --space-20: 5rem;
+      --radius-sm: 0.375rem; --radius-md: 0.5rem; --radius-lg: 0.75rem; --radius-xl: 1rem; --radius-full: 9999px;
+      --transition: 180ms cubic-bezier(0.16, 1, 0.3, 1);
+      --font-display: 'Noto Serif TC', Georgia, serif;
+      --font-body: 'Inter', 'Noto Sans TC', sans-serif;
+    }
+    :root, [data-theme="light"] {
+      --color-bg: #f7f6f2; --color-surface: #f9f8f5; --color-surface-2: #fbfbf9; --color-border: #d4d1ca;
+      --color-text: #28251d; --color-text-muted: #6f6a63; --color-text-faint: #9e9a93; --color-primary: #6f5d66;
+      --color-primary-hover: #56474f; --color-primary-soft: #ece5e8; --shadow: 0 18px 60px rgba(40,37,29,.10);
+    }
+    [data-theme="dark"] {
+      --color-bg: #171614; --color-surface: #1c1b19; --color-surface-2: #201f1d; --color-border: #393836;
+      --color-text: #ece8e1; --color-text-muted: #b7afa7; --color-text-faint: #8f8880; --color-primary: #ccb2bf;
+      --color-primary-hover: #dcc5cf; --color-primary-soft: #2c2529; --shadow: 0 18px 60px rgba(0,0,0,.32);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+    body {
+      min-height: 100vh; font-family: var(--font-body); font-size: var(--text-base); line-height: 1.6;
+      color: var(--color-text); background:
+      radial-gradient(circle at top, rgba(204,178,191,.18), transparent 30%),
+      var(--color-bg);
+    }
+    img { display: block; max-width: 100%; height: auto; }
+    button, audio { font: inherit; }
+    .shell { width: min(1100px, calc(100% - 2rem)); margin: 0 auto; padding: var(--space-8) 0 var(--space-16); }
+    .topbar { display: flex; justify-content: flex-end; margin-bottom: var(--space-8); }
+    .theme-toggle {
+      width: 48px; height: 48px; border-radius: var(--radius-full); border: 1px solid var(--color-border);
+      background: var(--color-surface); color: var(--color-text); display: grid; place-items: center; cursor: pointer;
+      box-shadow: var(--shadow); transition: transform var(--transition), background var(--transition), color var(--transition);
+    }
+    .theme-toggle:hover { transform: translateY(-2px); }
+    .hero {
+      display: grid; gap: var(--space-6); justify-items: center; text-align: center; margin-bottom: var(--space-12);
+      padding: var(--space-10) var(--space-6); background: color-mix(in srgb, var(--color-surface) 86%, transparent);
+      border: 1px solid var(--color-border); border-radius: calc(var(--radius-xl) + 6px); box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+    .kicker {
+      font-size: var(--text-xs); letter-spacing: .24em; text-transform: uppercase; color: var(--color-text-muted);
+    }
+    h1 {
+      font-family: var(--font-display); font-size: var(--text-2xl); line-height: 1.1; max-width: 12ch;
+    }
+    .hero p { color: var(--color-text-muted); max-width: 44ch; }
+    .privacy-note {
+      display: inline-flex; align-items: center; gap: var(--space-2); padding: .65rem 1rem; border-radius: var(--radius-full);
+      background: var(--color-primary-soft); color: var(--color-primary); font-size: var(--text-sm); font-weight: 600;
+    }
+    .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-6); }
+    .card {
+      background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 28px; overflow: hidden;
+      box-shadow: var(--shadow); display: grid;
+    }
+    .cover-wrap { padding: var(--space-6); background: var(--color-surface-2); }
+    .cover {
+      width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 24px; border: 1px solid var(--color-border);
+      background: var(--color-surface);
+    }
+    .card-body { padding: 0 var(--space-6) var(--space-6); display: grid; gap: var(--space-4); }
+    .title { font-family: var(--font-display); font-size: var(--text-xl); line-height: 1.15; }
+    .meta { color: var(--color-text-muted); font-size: var(--text-sm); }
+    audio { width: 100%; }
+    .hint { color: var(--color-text-faint); font-size: var(--text-sm); }
+    .hosting {
+      margin-top: var(--space-12); padding: var(--space-8); background: var(--color-surface); border: 1px solid var(--color-border);
+      border-radius: 24px; box-shadow: var(--shadow);
+    }
+    .hosting h2 { font-family: var(--font-display); font-size: var(--text-lg); margin-bottom: var(--space-4); }
+    .hosting ol { padding-left: 1.25rem; color: var(--color-text-muted); display: grid; gap: var(--space-3); }
+    .hosting code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .92em; background: var(--color-primary-soft);
+      padding: .15rem .4rem; border-radius: var(--radius-sm); color: var(--color-primary);
+    }
+    .footer { margin-top: var(--space-10); text-align: center; color: var(--color-text-faint); font-size: var(--text-sm); }
+    .skip-link {
+      position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden;
+    }
+    .skip-link:focus {
+      left: 1rem; top: 1rem; width: auto; height: auto; padding: .75rem 1rem; background: var(--color-surface);
+      color: var(--color-text); border-radius: var(--radius-md); border: 1px solid var(--color-border); z-index: 20;
+    }
+    @media (max-width: 960px) { .grid { grid-template-columns: 1fr; } h1 { max-width: 16ch; } }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#content">跳到內容</a>
+  <div class="shell">
+    <div class="topbar">
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="切換深色模式">
+        <span aria-hidden="true">◐</span>
+      </button>
+    </div>
+
+    <header class="hero">
+      <div class="kicker">Private music page</div>
+      <h1>Stephanie 音樂分享</h1>
+      <p>這是一個只供指定人士收聽的播放頁面。頁面沒有站內導覽入口，亦已加入 noindex 設定，適合配合 QR code 私下派發。</p>
+      <div class="privacy-note">僅透過連結或 QR code 存取</div>
+    </header>
+
+    <main id="content">
+      <section class="grid" aria-label="歌曲列表">
+        <article class="card">
+          <div class="cover-wrap">
+            <img class="cover" src="./assets/Yong-Jiu-Bao-Cun-COVER.jpg" alt="永久保存封面" width="768" height="768" loading="lazy" />
+          </div>
+          <div class="card-body">
+            <div>
+              <h2 class="title">永久保存</h2>
+              <p class="meta">Album Vol. 1</p>
+            </div>
+            <audio controls preload="none">
+              <source src="./assets/Yong-Jiu-Bao-Cun.mp3" type="audio/mpeg" />
+            </audio>
+            <p class="hint">建議上載後保留原檔名，這個範本即可直接使用。</p>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="cover-wrap">
+            <img class="cover" src="./assets/Saranghae-COVER.jpg" alt="Saranghae 封面" width="768" height="768" loading="lazy" />
+          </div>
+          <div class="card-body">
+            <div>
+              <h2 class="title">Saranghae</h2>
+              <p class="meta">Album Vol. 2</p>
+            </div>
+            <audio controls preload="none">
+              <source src="./assets/Saranghae.mp3" type="audio/mpeg" />
+            </audio>
+            <p class="hint">如之後要換歌，只需把音訊檔名稱一併改回相同即可。</p>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="cover-wrap">
+            <img class="cover" src="./assets/Nuan-Xin-COVER.jpg" alt="暖心封面" width="768" height="768" loading="lazy" />
+          </div>
+          <div class="card-body">
+            <div>
+              <h2 class="title">暖心</h2>
+              <p class="meta">Album Vol. 3</p>
+            </div>
+            <audio controls preload="none">
+              <source src="./assets/暖心.mp3" type="audio/mpeg" />
+            </audio>
+            <p class="hint">若免費 hosting 平台對中文檔名支援不穩，可把檔名改成 nuan-xin.mp3，再同步修改這行路徑。</p>
+          </div>
+        </article>
+      </section>
+
+      <section class="hosting" aria-label="免費 hosting 指引">
+        <h2>免費 hosting 建議</h2>
+        <ol>
+          <li>把整個資料夾上載到 GitHub repository，然後用 GitHub Pages 發佈。</li>
+          <li>發佈後，把網址設成一條難估的 repo / page 路徑，並不要從其他公開頁面連去它。</li>
+          <li>QR code 直接連到這個 HTML 頁面，例如 <code>https://你的帳號.github.io/資料夾/private-audio-player.html</code>。</li>
+          <li>如想再低調一點，可不要提交 sitemap，也不要把此網址貼到社交平台或公開網頁。</li>
+        </ol>
+      </section>
+    </main>
+
+    <p class="footer">Template prepared for private sharing by QR code.</p>
+  </div>
+
+  <script>
+    (function () {
+      const root = document.documentElement;
+      const button = document.querySelector('[data-theme-toggle]');
+      let current = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      const render = () => {
+        root.setAttribute('data-theme', current);
+        button.setAttribute('aria-label', current === 'dark' ? '切換淺色模式' : '切換深色模式');
+        button.innerHTML = current === 'dark' ? '<span aria-hidden="true">☀</span>' : '<span aria-hidden="true">◐</span>';
+      };
+      render();
+      button.addEventListener('click', function () { current = current === 'dark' ? 'light' : 'dark'; render(); });
+    }());
+  </script>
+</body>
+</html>
